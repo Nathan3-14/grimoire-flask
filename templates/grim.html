@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/global.css">
+    <link rel="stylesheet" href="/static/css/grim.css">
+    <!-- <link rel="stylesheet" href="{{url_for('static', filename='style.css')}}" -->
+    <script src="https://kit.fontawesome.com/b6a2129284.js" crossorigin="anonymous"></script>
+    <title>Grimoire</title>
+</head>
+<body>
+    <div id="radial-grid-adjust">
+    </div>
+
+    <form id="game-setup-inputs" action="/add_players" style="color: white;" method="POST">
+        <label for="setup-new-player-input">New Player:</label>
+        <input type="text" id="setup-players-input" name="setup-players-input">
+        <input type="submit" value="Setup Game">
+    </form>
+
+    <!-- <div id="game-setup-inputs" style="color: white">
+        <label for="setup-new-player-input">New Player:</label>
+        <input type="text" id="setup-new-player-input">
+        <button id="setup-add-new-player-button" onclick="setup_add_new_player()">Add Character</button>
+        <p>Current Players: {{charlist}}</p>
+        <button onclick="{{url_for('add_players')}}">Create</button>
+    </div> -->
+    <ul class="radial">
+        {% for player in players %}
+        <li class="player">
+            <ul class="reminders">
+            </ul>
+            <div class="character-token">
+                <img class="icon-background dead" src="https://github.com/bra1n/townsquare/blob/develop/src/assets/token.png?raw=true" style="visibility: hidden;">
+                <img class="icon-background alive" src="https://github.com/bra1n/townsquare/blob/develop/src/assets/life.png?raw=true">
+                <img class="icon" src={{url}}>
+                <svg width="128" height="128">
+                    <path id="character-name-path" d="M 20 40 A 50 50 0 1 0 108 40" pathLength="2" fill="none" stroke="none"/>
+                    <text><textPath href="#character-name-path" startOffset="1">{{player.character}}</textPath></text>
+                </svg>
+                <i class="fa-solid fa-skull player-execution"></i>
+            </div>
+            <button class="player-button">{{player.name}}</button>
+            <p class="player-ability-text">{{player.character.abilitytext}}</p>
+        </li>
+        {% endfor %}
+    </ul>
+    
+
+    <!--? Old Player Modification Dialog ?-->
+    <!-- <dialog id="player-modification">
+        <form method="dialog">
+            <h2>{{current_player}}</h2>
+            <div id="dialog-reminder-button-list">
+                <button class="dialog-reminder-button" onclick="dialog_add_reminder('drunk.drunk')">
+                    <img class="reminder-background" src="https://github.com/bra1n/townsquare/blob/develop/src/assets/reminder.png?raw=true" width="50" height="50">
+                    <img class="reminder-icon" src="https://wiki.bloodontheclocktower.com/images/4/4a/Icon_drunk.png" width="50" height="50">
+                    
+                    <svg width="50" height="50" viewbox="0 0 50 50">
+                        <path id="reminder-name-path" d="M 7.8125 15.625 A 19.53125 19.53125 0 1 0 42.1875 15.625" pathLength="2" fill="none" stroke="none"/>
+                        <text><textPath href="#reminder-name-path" startOffset="1">Drunk</textPath></text>
+                    </svg>
+                </button>
+            </div>
+
+            <label for="newname-input">New Name:</label>
+            <input type="text" id="newname-input" name="newname-input">
+            <button onclick="dialog_change_name()">Change Name</button><br>
+
+            <label for="newcharacter-input">New Character:</label>
+            <input type="text" id="newcharacter-input" name="newcharacter-input">
+            <button onclick="dialog_change_character()">Change Character</button><br>
+
+            <button onclick="dialog_change_alivedead()">Toggle Alive/Dead</button><br>
+            <button onclick="dialog_mark_for_execution()">Mark for Execution</button><br>
+            
+            <p color="red" id="dialog-extrainfo"></p>
+            <button type="button" id="close-dialog-button">Cancel</button>
+        </form>
+    </dialog> -->
+    <!--? End of Player Modification Dialog ?-->
+
+
+    <template id="character-template">
+    </template>
+    <template id="reminder-template">
+        <li class="reminder" onclick="this.remove()">
+            <img class="reminder-background" src="https://github.com/bra1n/townsquare/blob/develop/src/assets/reminder.png?raw=true" width="50" height="50">
+            <img class="reminder-icon" src="{{url}}" width="50" height="50">
+            
+            <svg width="50" height="50" viewbox="0 0 50 50">
+                <path id="reminder-name-path" d="M 7.8125 15.625 A 19.53125 19.53125 0 1 0 42.1875 15.625" pathLength="2" fill="none" stroke="none"/>
+                <text><textPath href="#reminder-name-path" startOffset="1" color="white">{{reminder}}</textPath></text>
+            </svg>
+            <svg width="50" height="50" viewBox="0 0 24 24" fill="none" class="delete-svg" style="cursor: pointer;">
+                <path d="M19 5L5 19M5.00001 5L19 19" stroke="darkred" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </li>
+    </template>
+    <template id="reminder-button-template">
+        <button class="dialog-reminder-button">
+            <img class="reminder-background" src="https://github.com/bra1n/townsquare/blob/develop/src/assets/reminder.png?raw=true" width="50" height="50">
+            <img class="reminder-icon" src="{{url}}" width="50" height="50">
+            
+            <svg width="50" height="50" viewbox="0 0 50 50">
+                <path id="reminder-name-path" d="M 7.8125 15.625 A 19.53125 19.53125 0 1 0 42.1875 15.625" pathLength="2" fill="none" stroke="none"/>
+                <text><textPath href="#reminder-name-path" startOffset="1" color="white">{{reminder_name}}</textPath></text>
+            </svg>
+        </button>
+    </template>
+</body>
+</html>
