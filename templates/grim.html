@@ -15,7 +15,7 @@
 
     <ul class="radial">
         {% for player in players %}
-        <li class="player" style="transform: rotate({{(360 // players|length)*loop.index0}}deg) translate(300px) rotate(-{{(360 // players|length)*loop.index0}}deg);">
+        <li class="player" style="transform: rotate({{(360 // players|length)*loop.index0}}deg) translate(300px) rotate(-{{(360 // players|length)*loop.index0}}deg);" id="{{player.name}}">
             <ul class="reminders">
             </ul>
             <div class="character-token">
@@ -28,7 +28,7 @@
                 </svg>
                 <i class="fa-solid fa-skull player-execution"></i>
             </div>
-            <button class="player-button">{{player.name}}</button>
+            <button class="player-button" data-player_name="{{player.name}}" onclick="open_dialog('{{player.name}}')">{{player.name}}</button>
             <p class="player-ability-text">{{player.character.abilitytext}}</p>
         </li>
         {% endfor %}
@@ -36,10 +36,11 @@
     
 
     <!--? Old Player Modification Dialog ?-->
-    <!-- <dialog id="player-modification">
-        <form method="dialog">
-            <h2>{{current_player}}</h2>
-            <div id="dialog-reminder-button-list">
+    <dialog id="player-modification">
+        <form action="/{{session_name}}/update_grim" method="POST">
+            <h2 id="dialog-current_player-title">@@current_player@@</h2>
+            <input type="hidden" name="dialog-current_player" id="dialog-current_player" value="">
+            <!-- <div id="dialog-reminder-button-list">
                 <button class="dialog-reminder-button" onclick="dialog_add_reminder('drunk.drunk')">
                     <img class="reminder-background" src="https://github.com/bra1n/townsquare/blob/develop/src/assets/reminder.png?raw=true" width="50" height="50">
                     <img class="reminder-icon" src="https://wiki.bloodontheclocktower.com/images/4/4a/Icon_drunk.png" width="50" height="50">
@@ -49,23 +50,29 @@
                         <text><textPath href="#reminder-name-path" startOffset="1">Drunk</textPath></text>
                     </svg>
                 </button>
-            </div>
+            </div> -->
 
-            <label for="newname-input">New Name:</label>
-            <input type="text" id="newname-input" name="newname-input">
-            <button onclick="dialog_change_name()">Change Name</button><br>
-
-            <label for="newcharacter-input">New Character:</label>
-            <input type="text" id="newcharacter-input" name="newcharacter-input">
-            <button onclick="dialog_change_character()">Change Character</button><br>
-
-            <button onclick="dialog_change_alivedead()">Toggle Alive/Dead</button><br>
-            <button onclick="dialog_mark_for_execution()">Mark for Execution</button><br>
+            <label for="dialog-newname-input">New Name:</label>
+            <input type="text" id="dialog_newname" name="dialog_newname">
+            <button onclick="document.getElementById('dialog_newname-ischanging').value = 'true'">Change Name</button>
+            <input type="hidden" id="dialog_newname-ischanging" name="dialog_newname-ischanging" value="false"><br>
             
-            <p color="red" id="dialog-extrainfo"></p>
-            <button type="button" id="close-dialog-button">Cancel</button>
+            <label for="dialog_newcharacter">New Character:</label>
+            <input type="text" id="dialog_newcharacter" name="dialog_newcharacter">
+            <button onclick="document.getElementById('dialog_newcharacter-ischanging').value = 'true'">Change Character</button><br>
+            <input type="hidden" id="dialog_newcharacter-ischanging" name="dialog_newcharacter-ischanging" value="false"><br>
+
+
+            <button onclick="document.getElementById('dialog_change_alivedead-ischanging').value = 'true'">Toggle Alive/Dead</button>
+            <input type="hidden" id="dialog_change_alivedead-ischanging" name="dialog_change_alivedead-ischanging" value="false"><br>
+
+            <button onclick="document.getElementById('dialog_mark_for_execution-ischanging').value = 'true'">Mark for Execution</button>
+            <input type="hidden" id="dialog_mark_for_execution-ischanging" name="dialog_mark_for_execution-ischanging" value="false"><br>
+            
+            <!-- <p color="red" id="dialog-extrainfo"></p> --> <!--* Use for changing name if there's duplicate *-->
+            <button type="button" id="dialog-close-button" onclick="document.getElementById('player-modification').close()">Cancel</button>
         </form>
-    </dialog> -->
+    </dialog>
     <!--? End of Player Modification Dialog ?-->
 
 
@@ -96,5 +103,7 @@
             </svg>
         </button>
     </template>
+
+    <script src="/static/js/playermodification.js"></script>
 </body>
 </html>
