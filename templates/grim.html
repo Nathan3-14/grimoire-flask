@@ -13,31 +13,18 @@
     <div id="radial-grid-adjust">
     </div>
 
-    <form id="game-setup-inputs" action="/add_players" style="color: white;" method="POST">
-        <label for="setup-new-player-input">New Player:</label>
-        <input type="text" id="setup-players-input" name="setup-players-input">
-        <input type="submit" value="Setup Game">
-    </form>
-
-    <!-- <div id="game-setup-inputs" style="color: white">
-        <label for="setup-new-player-input">New Player:</label>
-        <input type="text" id="setup-new-player-input">
-        <button id="setup-add-new-player-button" onclick="setup_add_new_player()">Add Character</button>
-        <p>Current Players: {{charlist}}</p>
-        <button onclick="{{url_for('add_players')}}">Create</button>
-    </div> -->
     <ul class="radial">
         {% for player in players %}
-        <li class="player">
+        <li class="player" style="transform: rotate({{(360 // players|length)*loop.index0}}deg) translate(300px) rotate(-{{(360 // players|length)*loop.index0}}deg);">
             <ul class="reminders">
             </ul>
             <div class="character-token">
                 <img class="icon-background dead" src="https://github.com/bra1n/townsquare/blob/develop/src/assets/token.png?raw=true" style="visibility: hidden;">
                 <img class="icon-background alive" src="https://github.com/bra1n/townsquare/blob/develop/src/assets/life.png?raw=true">
-                <img class="icon" src={{url}}>
+                <img class="icon" src={{player.character.icon_url}}>
                 <svg width="128" height="128">
                     <path id="character-name-path" d="M 20 40 A 50 50 0 1 0 108 40" pathLength="2" fill="none" stroke="none"/>
-                    <text><textPath href="#character-name-path" startOffset="1">{{player.character}}</textPath></text>
+                    <text><textPath href="#character-name-path" startOffset="1">{{player.character.character_id}}</textPath></text>
                 </svg>
                 <i class="fa-solid fa-skull player-execution"></i>
             </div>

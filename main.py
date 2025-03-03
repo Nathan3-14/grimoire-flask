@@ -1,6 +1,6 @@
 import json
-from typing import List
-from flask import Flask, redirect, render_template, request, url_for
+from typing import Dict, List
+from flask import Flask, redirect, render_template, request, session, url_for
 
 urls = json.load(open("data/urls.json", "r"))
 abilities = json.load(open("data/abilities.json", "r"))
@@ -20,8 +20,8 @@ class Character:
 class Player:
     def __init__(self, name: str, character: str="default") -> None:
         self.name = name
-        self.character = character
-        self.reminders = []
+        self.character = Character(character)
+        self.reminders: List[Reminder] = []
 
 def get_player_from_list(player_list: List[Player], player_name: str) -> Player:
     for player in player_list:
@@ -31,30 +31,33 @@ def get_player_from_list(player_list: List[Player], player_name: str) -> Player:
 
 app = Flask(__name__)
 
-players = []
+sessions: Dict[str, List[Player]] = {}
 
-@app.route("/")
-def grim():
-    players = request.args.get(players)
-    return render_template("grim.html", players=players if players != None else [])
+@app.route("/<session_name>")
+def setup(session_name):
+    return render_template("setup.html", session_name=session_name)
 
-@app.route('/add_players', methods=['POST'])
-def add_players():
+@app.route("/<session_name>/grim")
+def grim(session_name):
+    return render_template("grim.html", players=sessions[session_name])
+
+@app.route('/<session_name>/add_players', methods=['POST'])
+def add_players(session_name):
     if request.method == 'POST':
+        sessions[session_name] = []
         add_players_list = request.form.get("setup-players-input").split(", ") #type:ignore
-        print("Setting up with players")
         for player_name in add_players_list:
-            players.append(Player(player_name))
-        return redirect(url_for("grim", players=players))
+            sessions[session_name].append(Player(player_name))
+        return redirect(f"/{session_name}/grim")
     else:
-        return redirect(url_for("grim", players=[]))
+        return redirect(f"/{session_name}")
 
-@app.route("/add_reminder/<player_name>/<reminder_id>", methods=["POST"])
-def add_reminder(player_name: str, reminder_id: str):
-    if request.method == "POST":
-        get_player_from_list(players, player_name).reminders.append(Reminder(reminder_id))
-        return redirect(url_for("grim", players=players))
-    else:
-        return redirect(url_for("grim", players=[]))
+# @app.route("/add_reminder/<player_name>/<reminder_id>", methods=["POST"])
+# def add_reminder(player_name: str, reminder_id: str):
+#     if request.method == "POST":
+#         get_player_from_list(players, player_name).reminders.append(Reminder(reminder_id))
+#         return render_template("grim.html", player=players)
+#     else:
+#         return render_template("grim.html", players=[])
 
 app.run("0.0.0.0", 8080, debug=True)

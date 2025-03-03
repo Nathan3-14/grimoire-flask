@@ -8,5 +8,10 @@
 </head>
 <body>
     <h1>Setup</h1>
+    <form id="game-setup-inputs" action="/{{session_name}}/add_players" style="color: white;" method="POST">
+        <label for="setup-new-player-input">New Player:</label>
+        <input type="text" id="setup-players-input" name="setup-players-input">
+        <input type="submit" value="Setup Game">
+    </form>
 </body>
 </html>
