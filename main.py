@@ -33,6 +33,14 @@ class Player:
     
     def set_character(self, newcharacter_id: str) -> None:
         self.character = Character(newcharacter_id)
+    
+    def remove_reminder(self, reminder_id: str) -> None:
+        to_remove = None
+        for reminder in self.reminders:
+            if reminder.reminder_id == reminder_id:
+                to_remove = reminder
+                break
+        self.reminders.remove(to_remove)
 
 def get_player_from_list(player_list: List[Player], player_name: str) -> Player:
     for player in player_list:
@@ -63,21 +71,29 @@ def create_grim():
         if grimid is not None:
             sessions[grimid] = ""
             return redirect(f"/{grimid}")
-        else:
-            return redirect("/")
-    else:
-        return redirect("/")
+    return redirect("/")
 
 @app.route("/<session_name>/grim")
 def grim(session_name):
-    return render_template("grim.html", players=sessions[session_name], session_name=session_name)
+    try:
+        sessions[session_name]
+    except KeyError:
+        return redirect("/")
+    return render_template("grim.html", players=sessions[session_name], session_name=session_name, reminder_text_dict=reminders, reminder_id_list=list(reminders.keys()), urls=urls)
 
 @app.route("/<session_name>/update_grim", methods=["POST"])
 def update_grim(session_name: str):
-    current_player_name = request.form.get("dialog-current_player")
+    try:
+        sessions[session_name]
+    except KeyError:
+        return redirect("/")
+    current_player_name = request.form.get("dialog_current_player")
     print(f"Setting {current_player_name}")
     current_player = get_player_from_list(sessions[session_name], current_player_name)
-    if request.form.get("dialog_newname-ischanging") == "true":
+    if request.form.get("dialog_newreminder-id") != "":
+        print(f"Adding {request.form.get("dialog_newreminder-id")} reminder to {current_player_name}")
+        current_player.reminders.append(Reminder(request.form.get("dialog_newreminder-id")))
+    elif request.form.get("dialog_newname-ischanging") == "true":
         print(f"Changing Name to {request.form.get("dialog_newname")}")
         current_player.name = request.form.get("dialog_newname")
     elif request.form.get("dialog_newcharacter-ischanging") == "true":
@@ -95,21 +111,38 @@ def update_grim(session_name: str):
 
 @app.route("/<session_name>/add_players", methods=["POST"])
 def add_players(session_name: str):
+    try:
+        sessions[session_name]
+    except KeyError:
+        return redirect("/")
     if request.method == "POST":
         sessions[session_name] = []
         add_players_list = request.form.get("setup-players-input").split(", ") #type:ignore
         for player_name in add_players_list:
             sessions[session_name].append(Player(player_name))
-        return redirect(f"/{session_name}/grim")
-    else:
-        return redirect(f"/{session_name}")
+    return redirect(f"/{session_name}/grim")
 
-# @app.route("/add_reminder/<player_name>/<reminder_id>", methods=["POST"])
-# def add_reminder(player_name: str, reminder_id: str):
-#     if request.method == "POST":
-#         get_player_from_list(players, player_name).reminders.append(Reminder(reminder_id))
-#         return render_template("grim.html", player=players)
-#     else:
-#         return render_template("grim.html", players=[])
+@app.route("/<session_name>/add_reminder/<reminder_id>")
+def add_reminder(session_name, reminder_id: str):
+    try:
+        sessions[session_name]
+    except KeyError:
+        print(f"no such sessions '{session_name}'")
+        return redirect("/")
+    # if request.method == "POST":
+    player_name = request.form.get("dialog-current_player")
+    current_player = get_player_from_list(sessions[session_name], player_name)
+    current_player.reminders.append(Reminder(reminder_id))
+    print(f"{player_name}.reminders: {current_player.reminders}")
+    return redirect(f"/{session_name}/grim")
+
+@app.route("/<session_name>/<player_name>/remove_reminder/<reminder_id>")
+def remove_reminder(session_name: str, player_name: str, reminder_id: str):
+    try:
+        sessions[session_name]
+    except KeyError:
+        return redirect("/")
+    get_player_from_list(sessions[session_name], player_name).remove_reminder(reminder_id)
+    return redirect(f"/{session_name}/grim")
 
 app.run("0.0.0.0", 8080, debug=True)
