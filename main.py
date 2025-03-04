@@ -27,7 +27,7 @@ class Player:
         self.name = name
         self.character = Character(character)
         self.reminders: List[Reminder] = []
-        self.alive: bool = True
+        self.is_alive: bool = True
         self.to_execute: bool = False
     
     def set_character(self, newcharacter_id: str) -> None:
@@ -71,16 +71,21 @@ def grim(session_name):
 def update_grim(session_name: str):
     current_player_name = request.form.get("dialog-current_player")
     print(f"Setting {current_player_name}")
+    current_player = get_player_from_list(sessions[session_name], current_player_name)
     if request.form.get("dialog_newname-ischanging") == "true":
         print(f"Changing Name to {request.form.get("dialog_newname")}")
-        get_player_from_list(sessions[session_name], current_player_name).name = request.form.get("dialog_newname")
+        current_player.name = request.form.get("dialog_newname")
     elif request.form.get("dialog_newcharacter-ischanging") == "true":
         print(f"Changing Character to {request.form.get("dialog_newcharacter")}")
-        get_player_from_list(sessions[session_name], current_player_name).set_character(request.form.get("dialog_newcharacter"))
+        current_player.set_character(request.form.get("dialog_newcharacter"))
     elif request.form.get("dialog_change_alivedead-ischanging") == "true":
-        pass
+        current_player.is_alive = not current_player.is_alive
     elif request.form.get("dialog_mark_for_execution-ischanging") == "true":
-        pass
+        current_player.to_execute = not current_player.to_execute
+        for player in sessions[session_name]:
+            if player == current_player:
+                continue
+            player.to_execute = False
     return redirect(f"/{session_name}/grim")
 
 @app.route("/<session_name>/add_players", methods=["POST"])
