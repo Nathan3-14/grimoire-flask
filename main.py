@@ -1,15 +1,16 @@
 import json
 from typing import Dict, List
-from flask import Flask, redirect, render_template, request, session, url_for
+from flask import Flask, redirect, render_template, request
 
 urls = json.load(open("data/urls.json", "r"))
 abilities = json.load(open("data/abilities.json", "r"))
+reminders = json.load(open("data/reminders.json", "r"))
 
 class Reminder:
     def __init__(self, reminder_id: str) -> None:
         self.reminder_id = reminder_id
         self.icon_url = urls[reminder_id.split(".")[0]]
-        self.remindertext = abilities[reminder_id]
+        self.remindertext = reminders[reminder_id]
 
 class Character:
     def __init__(self, character_id: str="default") -> None:
@@ -49,6 +50,10 @@ def index():
 
 @app.route("/<session_name>")
 def setup(session_name: str):
+    try:
+        sessions[session_name]
+    except KeyError:
+        return redirect("/")
     return render_template("setup.html", session_name=session_name)
 
 @app.route("/creategrim", methods=["POST"])

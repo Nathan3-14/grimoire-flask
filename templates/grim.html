@@ -15,8 +15,23 @@
 
     <ul class="radial">
         {% for player in players %}
-        <li class="player" style="transform: rotate({{360 // players|length * loop.index0 - 90}}deg) translate(300px) rotate({{(360 // players|length * loop.index0 - 90)*-1}}deg);" id="{{player.name}}">
-            <ul class="reminders">
+        {% set rotate_value = 360 // players|length * loop.index0 - 90 %}
+        <li class="player" style="transform: rotate({{rotate_value}}deg) translate(300px) rotate({{rotate_value*-1}}deg);" id="{{player.name}}">
+            <ul class="reminders" style="transform: rotate({{rotate_value}}deg) translate(-200px)">
+                {% for reminder in player.reminders %}
+                <li class="reminder" onclick="this.remove()" style="transform: rotate({{rotate_value*-1}}deg);">
+                    <img class="reminder-background" src="https://github.com/bra1n/townsquare/blob/develop/src/assets/reminder.png?raw=true" width="50" height="50">
+                    <img class="reminder-icon" src="{{reminder.icon_url}}" width="50" height="50">
+                    
+                    <svg width="50" height="50" viewbox="0 0 50 50">
+                        <path id="reminder-name-path" d="M 7.8125 15.625 A 19.53125 19.53125 0 1 0 42.1875 15.625" pathLength="2" fill="none" stroke="none"/>
+                        <text><textPath href="#reminder-name-path" startOffset="1" color="white">{{reminder.remindertext}}</textPath></text>
+                    </svg>
+                    <svg width="50" height="50" viewBox="0 0 24 24" fill="none" class="delete-svg" style="cursor: pointer;">
+                        <path d="M19 5L5 19M5.00001 5L19 19" stroke="darkred" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </li>
+                {% endfor %}
             </ul>
             <div class="character-token">
                 <img class="icon-background dead" src="https://github.com/bra1n/townsquare/blob/develop/src/assets/token.png?raw=true" style="visibility: {{'hidden' if player.is_alive else 'visible'}};">
@@ -76,9 +91,6 @@
     </dialog>
     <!--? End of Player Modification Dialog ?-->
 
-
-    <template id="character-template">
-    </template>
     <template id="reminder-template">
         <li class="reminder" onclick="this.remove()">
             <img class="reminder-background" src="https://github.com/bra1n/townsquare/blob/develop/src/assets/reminder.png?raw=true" width="50" height="50">

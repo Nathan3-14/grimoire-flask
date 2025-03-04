@@ -1,0 +1,17 @@
+{
+    "imp.dead": "Dead",
+    "drunk.drunk": "Drunk",
+    "butler.master": "Master",
+    "poisoner.poisoned": "Poisoned",
+    "slayer.noability": "No Ability",
+    "virgin.noability": "No Ability",
+    "monk.protected": "Protected",
+    "undertaker.executed": "Executed",
+    "fortune_teller.redherring": "Red Herring",
+    "investigator.wrong": "Wrong",
+    "investigator.minion": "Minion",
+    "librarian.wrong": "Wrong",
+    "librarian.outsider": "Outsider",
+    "washerwoman.wrong": "Wrong",
+    "washerwoman.townsfolk": "Townsfolk"
+}
