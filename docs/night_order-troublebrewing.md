@@ -13,4 +13,13 @@
 11. Butler - Get one player from butler, mark them as "Master"
 
 ## Second Night
-1. Poisoner - ...
+1. Poisoner - Previous player is no longer poisoned. Get one player from poisoner, they're now poisoned
+2. Monk - Get player, they're now safe from the demon
+3. Spy - Show spy the grimoire
+4. Scarlett woman - If demon is dead and player left > 5, becomes demon
+5. Imp - Get player to kill, if self show minion "you are" imp
+6. Ravenkeeper - if dead by demon: get player, show character
+7. Undertaker - if someone executed: show character
+8. Empath - show how many neighbors are evil
+9. Fortune Teller - get two players, say if one is demon or red herring
+10. Butler - get player, mark them eith "master"
