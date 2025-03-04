@@ -24,7 +24,7 @@
                 <img class="icon" src={{player.character.icon_url}}>
                 <svg width="128" height="128">
                     <path id="character-name-path" d="M 20 40 A 50 50 0 1 0 108 40" pathLength="2" fill="none" stroke="none"/>
-                    <text><textPath href="#character-name-path" startOffset="1">{{player.character.character_id}}</textPath></text>
+                    <text><textPath href="#character-name-path" startOffset="1">{{player.character.display_character_id}}</textPath></text>
                 </svg>
                 <i class="fa-solid fa-skull player-execution"></i>
             </div>
@@ -63,7 +63,7 @@
             <input type="hidden" id="dialog_newname-ischanging" name="dialog_newname-ischanging" value="false"><br>
 
 
-            
+
             <button onclick="document.getElementById('dialog_change_alivedead-ischanging').value = 'true'">Toggle Alive/Dead</button>
             <input type="hidden" id="dialog_change_alivedead-ischanging" name="dialog_change_alivedead-ischanging" value="false"><br>
 

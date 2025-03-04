@@ -13,9 +13,14 @@ class Reminder:
 
 class Character:
     def __init__(self, character_id: str="default") -> None:
-        self.character_id = character_id
+        self.character_id, self.display_character_id = "", ""
+        self.set_id(character_id)
         self.icon_url = urls[character_id]
         self.abilitytext = abilities[character_id]
+    
+    def set_id(self, newid: str) -> None:
+        self.character_id = newid
+        self.display_character_id = " ".join([word.capitalize() for word in newid.split("_")])
 
 class Player:
     def __init__(self, name: str, character: str="default") -> None:
