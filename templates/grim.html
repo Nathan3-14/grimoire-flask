@@ -15,8 +15,7 @@
 
     <ul class="radial">
         {% for player in players %}
-        <!--TODO make rotate be by (360/length * index) - 90-->
-        <li class="player" style="transform: rotate(calc({{(360 // players|length)*loop.index0}}deg + 5deg)) translate(300px) rotate(-calc({{(360 // players|length)*loop.index0}}deg + 5deg));" id="{{player.name}}">
+        <li class="player" style="transform: rotate({{360 // players|length * loop.index0 - 90}}deg) translate(300px) rotate({{(360 // players|length * loop.index0 - 90)*-1}}deg);" id="{{player.name}}">
             <ul class="reminders">
             </ul>
             <div class="character-token">
