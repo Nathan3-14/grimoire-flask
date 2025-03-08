@@ -115,7 +115,7 @@ def create_grim():
     if request.method == "POST":
         grimid = request.form.get("grim-id")
         if grimid is not None:
-            sessions[grimid] = Session(edition="bmr")
+            sessions[grimid] = Session(edition="tb")
             return redirect(f"/{grimid}")
     return redirect("/")
 
@@ -147,6 +147,10 @@ def update_grim(session_name: str):
     if request.form.get("dialog_newreminder-id") != "":
         print(f"Adding {request.form.get("dialog_newreminder-id")} reminder to {current_player_name}")
         current_player.reminders.append(Reminder(request.form.get("dialog_newreminder-id"), sessions[session_name]))
+    elif request.form.get("dialog_newcharacter-id") != "":
+        print(f"Setting {current_player_name}'s character to {request.form.get("dialog_newcharacter-id")}")
+        current_player.set_character(request.form.get("dialog_newcharacter-id"), sessions[session_name])
+        # current_player.reminders.append(Reminder(), sessions[session_name]))
     elif request.form.get("dialog_newname-ischanging") == "true":
         print(f"Changing Name to {request.form.get("dialog_newname")}")
         current_player.name = request.form.get("dialog_newname")

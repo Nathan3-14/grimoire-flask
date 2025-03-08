@@ -128,7 +128,7 @@
 }
 
 #player-modification > form > #dialog-reminder-button-list > .dialog_reminder-button {
-    position:relative;
+    position: relative;
     width: 55px;
     height: 55px;
 }
@@ -140,7 +140,8 @@
     top: 0;
     left: 0;
 }
-#player-modification > form > #dialog-reminder-button-list > .dialog_character-button > svg > text > textPath {
+
+#player-modification > form > #dialog-reminder-button-list > .dialog_reminder-button > svg > text > textPath {
     fill: black;
     font-size: 15px;
 }
@@ -158,6 +159,11 @@
     top: 0;
     left: 0;
 }
+#player-modification > form > #dialog-character-button-list > .dialog_character-button > svg > text {
+    position: absolute;
+    left: 0;
+    top: 0;
+}
 #player-modification > form > #dialog-character-button-list > .dialog_character-button > svg > text > textPath {
     fill: black;
     font-size: 15px;
@@ -166,9 +172,5 @@
 
 textPath {
     text-anchor: middle;
-    /* fill: white; */
-    font-family: Papyrus,serif;
+    font-family: Papyrus, serif;
 }
-/* .token {
-    transform: translate(-50%, -50%) rotate(0deg) translateX(150px); 
-} */
