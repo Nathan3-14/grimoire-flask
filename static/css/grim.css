@@ -140,7 +140,25 @@
     top: 0;
     left: 0;
 }
-#player-modification > form > #dialog-reminder-button-list > .dialog_reminder-button > svg > text > textPath {
+#player-modification > form > #dialog-reminder-button-list > .dialog_character-button > svg > text > textPath {
+    fill: black;
+    font-size: 15px;
+}
+
+#player-modification > form > #dialog-character-button-list > .dialog_character-button {
+    position: relative;
+    width: 55px;
+    height: 55px;
+}
+#player-modification > form > #dialog-character-button-list > .dialog_character-button > .character-background,
+#player-modification > form > #dialog-character-button-list > .dialog_character-button > .character-icon,
+#player-modification > form > #dialog-character-button-list > .dialog_character-button > svg {
+    position: absolute;
+    display: block;
+    top: 0;
+    left: 0;
+}
+#player-modification > form > #dialog-character-button-list > .dialog_character-button > svg > text > textPath {
     fill: black;
     font-size: 15px;
 }
@@ -148,7 +166,7 @@
 
 textPath {
     text-anchor: middle;
-    fill: white;
+    /* fill: white; */
     font-family: Papyrus,serif;
 }
 /* .token {

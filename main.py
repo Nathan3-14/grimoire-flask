@@ -125,7 +125,15 @@ def grim(session_name):
         sessions[session_name].players
     except KeyError:
         return redirect("/")
-    return render_template("grim.html", players=sessions[session_name].players, session_name=session_name, reminder_text_dict=sessions[session_name].get_reminders(), reminder_id_list=list(sessions[session_name].get_reminders().keys()), urls=sessions[session_name].get_urls())
+    return render_template(
+        "grim.html",
+        players=sessions[session_name].players,
+        session_name=session_name,
+        reminder_text_dict=sessions[session_name].get_reminders(),
+        reminder_id_list=list(sessions[session_name].get_reminders().keys()),
+        character_list=list(sessions[session_name].get_urls().keys()),
+        urls=sessions[session_name].get_urls()
+    )
 
 @app.route("/<session_name>/update_grim", methods=["POST"])
 def update_grim(session_name: str):
