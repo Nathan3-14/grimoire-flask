@@ -3,12 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/global.css">
     <title>Home</title>
 </head>
 <body>
     <form action="/creategrim" method="POST">
         <label for="grim-id">Grim ID:</label>
         <input id="grim-id" name="grim-id" type="text">
+        <br>
+        <label for="edition">Edition:</label>
+        <input id="edition" name="edition" type="text">
+        <br>
         <input type="Submit" value="Create Grim">
     </form>
 </body>

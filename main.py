@@ -126,8 +126,9 @@ def setup(session_name: str):
 def create_grim():
     if request.method == "POST":
         grimid = request.form.get("grim-id")
+        edition = request.form.get("edition")
         if grimid is not None:
-            sessions[grimid] = Session(edition="sav")
+            sessions[grimid] = Session(edition=edition)
             return redirect(f"/{grimid}")
     return redirect("/")
 
