@@ -14,12 +14,18 @@ characters_bmr = [
     "goon", "lunatic", "tinker", "moonchild",
     "grandmother", "sailor", "chambermaid", "exorcist", "innkeeper", "gambler", "gossip", "courtier", "professor", "minstrel", "tea_lady", "pacifist", "fool"
 ]
+characters_sav = [
+    "fang_gu", "vigormortis", "no_dashii", "vortox",
+    "evil_twin", "witch", "cerenovus", "pit-hag",
+    "mutant", "sweetheart", "barber", "klutz",
+    "clockmaker", "dreamer", "snake_charmer", "mathematician", "flowergirl", "town_crier", "oracle", "savant", "seamstress", "philosopher", "artist", "juggler", "sage"
+]
 urls: Dict[str, str] = {}
 
 to_out = ""
 
-for character in characters_bmr:
-    filename = f"Icon_{character.replace('_','').replace("'", "")}.png"
+for character in characters_sav:
+    filename = f"Icon_{character.replace('_','').replace("'", "").replace("-", "")}.png"
     result = hashlib.md5(filename.encode())
     dirs = result.hexdigest()[:2]
     dir_path = f"{dirs[0]}/{dirs}"
@@ -28,4 +34,4 @@ for character in characters_bmr:
     print(url)
 
 urls["default"] = "https://wiki.bloodontheclocktower.com/images/c/c9/Generic_fabled.png"
-json.dump(urls, open("data/urls_bmr.json", "w"))
+json.dump(urls, open("data/urls_sav.json", "w"))

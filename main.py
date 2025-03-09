@@ -2,6 +2,7 @@ import json
 from typing import Dict, List
 from flask import Flask, redirect, render_template, request
 
+
 urls_tb = json.load(open("data/urls_tb.json", "r"))
 abilities_tb = json.load(open("data/abilities_tb.json", "r"))
 reminders_tb = json.load(open("data/reminders_tb.json", "r"))
@@ -9,6 +10,11 @@ reminders_tb = json.load(open("data/reminders_tb.json", "r"))
 urls_bmr = json.load(open("data/urls_bmr.json", "r"))
 abilities_bmr = json.load(open("data/abilities_bmr.json", "r"))
 reminders_bmr = json.load(open("data/reminders_bmr.json", "r"))
+
+urls_sav = json.load(open("data/urls_sav.json", "r"))
+abilities_sav = json.load(open("data/abilities_sav.json", "r"))
+reminders_sav = json.load(open("data/reminders_sav.json", "r"))
+
 
 reminders_goodevil = {
     "good.good": "Good",
@@ -66,6 +72,8 @@ class Session:
                 return urls_tb | urls_goodevil
             case "bmr":
                 return urls_bmr | urls_goodevil
+            case "sav":
+                return urls_sav | urls_goodevil
             case _:
                 return {} | urls_goodevil
 
@@ -75,6 +83,8 @@ class Session:
                 return abilities_tb
             case "bmr":
                 return abilities_bmr
+            case "sav":
+                return abilities_sav
             case _:
                 return {}
 
@@ -84,6 +94,8 @@ class Session:
                 return reminders_tb | reminders_goodevil
             case "bmr":
                 return reminders_bmr | reminders_goodevil
+            case "sav":
+                return reminders_sav | reminders_goodevil
             case _:
                 return {} | reminders_goodevil
 
@@ -115,7 +127,7 @@ def create_grim():
     if request.method == "POST":
         grimid = request.form.get("grim-id")
         if grimid is not None:
-            sessions[grimid] = Session(edition="tb")
+            sessions[grimid] = Session(edition="sav")
             return redirect(f"/{grimid}")
     return redirect("/")
 
