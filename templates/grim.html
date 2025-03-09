@@ -54,6 +54,22 @@
     <dialog id="player-modification">
         <form action="/{{session_name}}/update_grim" method="POST">
             <h2 id="dialog_current_player-title">@@current_player@@</h2>
+            <h3>Change Character</h3>
+            <div id="dialog-character-button-list">
+                <input type="hidden" id="dialog_newcharacter-id" name="dialog_newcharacter-id" value="">
+                {% for new_character in character_list %}
+                <button class="dialog_character-button" onclick="document.getElementById('dialog_newcharacter-id').value = '{{new_character}}'">
+                    <img class="character-background" src="https://github.com/bra1n/townsquare/blob/develop/src/assets/life.png?raw=true" width="50" height="50">
+                    <img class="character-icon" src="{{urls[new_character]}}" width="50" height="50">
+                    
+                    <svg width="50" height="50" viewBox="0 0 50 50">
+                        <path id="character-name-path-{{loop.index}}" d="M 7.8125 15.625 A 19.53125 19.53125 0 1 0 42.1875 15.625" pathLength="2" fill="none" stroke="none"/>
+                        <text><textPath href="#character-name-path-{{loop.index}}" startOffset="1">{{new_character|capitalize}}</textPath></text>
+                    </svg>
+                </button>
+                {% endfor %}
+            </div>
+            <br>
             <input type="hidden" name="dialog_current_player" id="dialog_current_player" value="">
             <h3>Add Reminder:</h3>
             <div id="dialog-reminder-button-list">
@@ -70,23 +86,6 @@
                 </button>
                 {% endfor %}
             </div>
-            <br>
-            <h3>Change Character</h3>
-            <div id="dialog-character-button-list">
-                <input type="hidden" id="dialog_newcharacter-id" name="dialog_newcharacter-id" value="">
-                {% for new_character in character_list %}
-                <button class="dialog_character-button" onclick="document.getElementById('dialog_newcharacter-id').value = '{{new_character}}'">
-                    <img class="character-background" src="https://github.com/bra1n/townsquare/blob/develop/src/assets/life.png?raw=true" width="50" height="50">
-                    <img class="character-icon" src="{{urls[new_character]}}" width="50" height="50">
-                    
-                    <svg width="50" height="50" viewBox="0 0 50 50">
-                        <path id="character-name-path-{{loop.index}}" d="M 7.8125 15.625 A 19.53125 19.53125 0 1 0 42.1875 15.625" pathLength="2" fill="none" stroke="none"/>
-                        <text><textPath href="#character-name-path-{{loop.index}}" startOffset="1">{{new_character|capitalize}}</textPath></text>
-                    </svg>
-                </button>
-                {% endfor %}
-            </div>
-            
             <label for="dialog-newname-input">New Name:</label>
             <input type="text" id="dialog_newname" name="dialog_newname">
             <button onclick="document.getElementById('dialog_newname-ischanging').value = 'true'">Change Name</button>
